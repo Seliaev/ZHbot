@@ -1,0 +1,17 @@
+services:
+  zhbot:
+    build: .
+    container_name: zhbot_v2
+    restart: always  # Бот сам перезапустится, если сервер перезагрузится или скрипт упадет
+    volumes:
+      # Пробрасываем папку с картинками, чтобы можно было заливать новых жаб прямо на сервер
+      - ./img:/app/img
+      # Пробрасываем базу данных, чтобы она не стиралась при обновлении бота
+      - ./bot_database.db:/app/bot_database.db
+    env_file:
+      - .env  # Читаем переменные из файла .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
